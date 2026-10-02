@@ -77,6 +77,7 @@ Script akan membuat folder berikut di dalam Download:
 Download/
 ├── Gambar/
 ├── Video/
+├── Audio/
 ├── Dokumen/
 ├── APK/
 └── Arsip/
@@ -88,6 +89,7 @@ Download/
 |---|---|
 | Gambar | jpg, jpeg, png, gif, webp |
 | Video | mp4, mkv, avi, webm |
+| Audio | mp3, m4a, wav, ogg, flac |
 | Dokumen | pdf, doc, docx, xls, xlsx, ppt, pptx, txt |
 | APK | apk |
 | Arsip | zip, rar, 7z, tar, gz |

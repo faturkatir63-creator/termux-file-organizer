@@ -21,6 +21,8 @@ for arg in "$@"; do
       AUTO_CONFIRM=true
       ;;
     --help|-h)
+      echo "Termux File Organizer v1.1.0"
+      echo
       echo "Cara pakai:"
       echo "  ./organize.sh            Preview lalu minta konfirmasi"
       echo "  ./organize.sh --dry-run  Hanya menampilkan preview"
@@ -38,6 +40,7 @@ done
 declare -A CATEGORIES=(
   ["Gambar"]="*.jpg *.jpeg *.png *.gif *.webp"
   ["Video"]="*.mp4 *.mkv *.avi *.webm"
+  ["Audio"]="*.mp3 *.m4a *.wav *.ogg *.flac"
   ["Dokumen"]="*.pdf *.doc *.docx *.xls *.xlsx *.ppt *.pptx *.txt"
   ["APK"]="*.apk"
   ["Arsip"]="*.zip *.rar *.7z *.tar *.gz"
