@@ -34,6 +34,20 @@ termux-setup-storage
 
 Jalankan script:
 
+## Mode preview
+
+Gunakan mode preview untuk melihat file yang akan dipindahkan tanpa mengubah apa pun:
+
+```bash
+./organize.sh --dry-run
+```
+
+Jika hasilnya sudah sesuai, jalankan tanpa opsi:
+
+```bash
+./organize.sh
+```
+
 ```bash
 chmod +x organize.sh
 ./organize.sh
