@@ -36,6 +36,22 @@ Jalankan script:
 
 ## Mode preview
 
+## Pilihan penggunaan
+
+```bash
+# Preview tanpa memindahkan file
+./organize.sh --dry-run
+
+# Preview lalu minta konfirmasi
+./organize.sh
+
+# Langsung pindahkan file tanpa konfirmasi
+./organize.sh --yes
+
+# Tampilkan bantuan
+./organize.sh --help
+```
+
 Gunakan mode preview untuk melihat file yang akan dipindahkan tanpa mengubah apa pun:
 
 ```bash
