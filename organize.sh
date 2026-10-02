@@ -2,39 +2,50 @@
 
 set -u
 
-DOWNLOAD="$HOME/storage/downloads"
+SOURCE_DIR="$HOME/storage/downloads"
 DRY_RUN=false
 AUTO_CONFIRM=false
 
-if [ ! -d "$DOWNLOAD" ]; then
+if [ ! -d "$SOURCE_DIR" ]; then
   echo "Folder Download belum dapat diakses."
   echo "Jalankan dulu: termux-setup-storage"
   exit 1
 fi
 
-for arg in "$@"; do
-  case "$arg" in
+while [ "$#" -gt 0 ]; do
+  case "$1" in
     --dry-run)
       DRY_RUN=true
       ;;
     --yes)
       AUTO_CONFIRM=true
       ;;
+    --source)
+      shift
+      if [ -z "${1:-}" ]; then
+        echo "Error: --source membutuhkan lokasi folder."
+        exit 1
+      fi
+      SOURCE_DIR="$1"
+      ;;
     --help|-h)
-      echo "Termux File Organizer v1.1.0"
+      echo "Termux File Organizer v1.2.0"
       echo
       echo "Cara pakai:"
-      echo "  ./organize.sh            Preview lalu minta konfirmasi"
-      echo "  ./organize.sh --dry-run  Hanya menampilkan preview"
-      echo "  ./organize.sh --yes      Langsung pindahkan file"
+      echo "  ./organize.sh"
+      echo "  ./organize.sh --dry-run"
+      echo "  ./organize.sh --yes"
+      echo "  ./organize.sh --source FOLDER"
       exit 0
       ;;
     *)
-      echo "Opsi tidak dikenal: $arg"
+      echo "Opsi tidak dikenal: $1"
       echo "Gunakan ./organize.sh --help"
       exit 1
       ;;
   esac
+
+  shift
 done
 
 declare -A CATEGORIES=(
@@ -54,7 +65,7 @@ count_files() {
   for pattern in $patterns; do
     while IFS= read -r -d '' file; do
       total=$((total + 1))
-    done < <(find "$DOWNLOAD" -maxdepth 1 -type f -iname "$pattern" -print0)
+    done < <(find "$SOURCE_DIR" -maxdepth 1 -type f -iname "$pattern" -print0)
   done
 
   echo "$total"
@@ -76,7 +87,7 @@ show_preview() {
       while IFS= read -r -d '' file; do
         echo "[PREVIEW] $(basename "$file") -> $category/"
         found=true
-      done < <(find "$DOWNLOAD" -maxdepth 1 -type f -iname "$pattern" -print0)
+      done < <(find "$SOURCE_DIR" -maxdepth 1 -type f -iname "$pattern" -print0)
     done
   done
 
@@ -89,7 +100,7 @@ show_preview() {
 move_category() {
   local category="$1"
   local patterns="$2"
-  local destination="$DOWNLOAD/$category"
+  local destination="$SOURCE_DIR/$category"
   local pattern
 
   mkdir -p "$destination"
@@ -98,7 +109,7 @@ move_category() {
     while IFS= read -r -d '' file; do
       mv -n "$file" "$destination/"
       echo "[PINDAH] $(basename "$file") -> $category/"
-    done < <(find "$DOWNLOAD" -maxdepth 1 -type f -iname "$pattern" -print0)
+    done < <(find "$SOURCE_DIR" -maxdepth 1 -type f -iname "$pattern" -print0)
   done
 }
 
