@@ -1,92 +1,19 @@
 # Termux File Organizer
 
-Script Bash untuk merapikan file di folder Download Android menggunakan Termux.
+Script Bash sederhana untuk merapikan file dalam folder Android dari Termux berdasarkan jenis file.
 
 ## Fitur
 
-- Memindahkan gambar ke folder `Gambar`
-- Memindahkan video ke folder `Video`
-- Memindahkan dokumen ke folder `Dokumen`
-- Memindahkan file APK ke folder `APK`
-- Memindahkan file arsip ke folder `Arsip`
-- Tidak menimpa file dengan nama yang sama
+- Mengelompokkan file ke folder kategori secara otomatis
+- Mendukung mode preview dengan `--dry-run`
+- Mendukung konfirmasi otomatis dengan `--yes`
+- Mendukung folder sumber kustom dengan `--source FOLDER`
+- Tidak memindahkan folder, hanya file yang ada langsung di folder sumber
 
-## Kebutuhan
-
-- Android
-- Termux
-- Izin akses storage untuk Termux
-
-## Instalasi
-
-Clone repository ini:
-
-```bash
-git clone [https://github.com/faturkatir63-creator/termux-file-organizer.git](https://github.com/faturkatir63-creator/termux-file-organizer.git)
-cd termux-file-organizer
-```
-
-Berikan izin akses storage:
-
-```bash
-termux-setup-storage
-```
-
-Jalankan script:
-
-## Mode preview
-
-## Pilihan penggunaan
-
-```bash
-# Preview tanpa memindahkan file
-./organize.sh --dry-run
-
-# Preview lalu minta konfirmasi
-./organize.sh
-
-# Langsung pindahkan file tanpa konfirmasi
-./organize.sh --yes
-
-# Tampilkan bantuan
-./organize.sh --help
-```
-
-Gunakan mode preview untuk melihat file yang akan dipindahkan tanpa mengubah apa pun:
-
-```bash
-./organize.sh --dry-run
-```
-
-Jika hasilnya sudah sesuai, jalankan tanpa opsi:
-
-```bash
-./organize.sh
-```
-
-```bash
-chmod +x organize.sh
-./organize.sh
-```
-
-## Folder hasil
-
-Script akan membuat folder berikut di dalam Download:
-
-```text
-Download/
-├── Gambar/
-├── Video/
-├── Audio/
-├── Dokumen/
-├── APK/
-└── Arsip/
-```
-
-## Jenis file
+## Kategori file
 
 | Kategori | Ekstensi |
-|---|---|
+| --- | --- |
 | Gambar | jpg, jpeg, png, gif, webp |
 | Video | mp4, mkv, avi, webm |
 | Audio | mp3, m4a, wav, ogg, flac |
@@ -94,12 +21,112 @@ Download/
 | APK | apk |
 | Arsip | zip, rar, 7z, tar, gz |
 
+## Persiapan
+
+Aktifkan akses penyimpanan Termux:
+
+```bash
+termux-setup-storage
+```
+
+Pastikan Bash tersedia:
+
+```bash
+pkg install bash
+```
+
+## Cara pakai
+
+Masuk ke folder proyek:
+
+```bash
+cd ~/termux-file-organizer
+```
+
+Beri izin eksekusi:
+
+```bash
+chmod +x organize.sh
+```
+
+Rapikan folder Download default:
+
+```bash
+./organize.sh
+```
+
+Preview tanpa memindahkan file:
+
+```bash
+./organize.sh --dry-run
+```
+
+Rapikan tanpa pertanyaan konfirmasi:
+
+```bash
+./organize.sh --yes
+```
+
+## Memilih folder sumber
+
+Secara default, script menggunakan:
+
+```text
+~/storage/downloads
+```
+
+Gunakan `--source` untuk memilih folder lain:
+
+```bash
+# Preview file di folder Pictures
+./organize.sh --source ~/storage/pictures --dry-run
+
+# Rapikan file di folder Pictures
+./organize.sh --source ~/storage/pictures
+
+# Rapikan folder uji tanpa pertanyaan konfirmasi
+./organize.sh --source ~/organizer-test --yes
+```
+
+## Contoh hasil
+
+Misalnya folder sumber berisi:
+
+```text
+foto.jpg
+lagu.mp3
+laporan.pdf
+aplikasi.apk
+backup.zip
+```
+
+Setelah script dijalankan, hasilnya menjadi:
+
+```text
+Folder-Sumber/
+├── APK/
+│   └── aplikasi.apk
+├── Arsip/
+│   └── backup.zip
+├── Audio/
+│   └── lagu.mp3
+├── Dokumen/
+│   └── laporan.pdf
+└── Gambar/
+    └── foto.jpg
+```
+
+## Bantuan
+
+Tampilkan seluruh opsi yang tersedia:
+
+```bash
+./organize.sh --help
+```
+
 ## Catatan
 
-Script hanya memindahkan file yang berada langsung di folder Download. Subfolder yang sudah ada tidak diproses.
-
-Gunakan dengan hati-hati dan cek isi folder Download sebelum menjalankan script.
-
-## Lisensi
-
-MIT License
+- Gunakan `--dry-run` terlebih dahulu sebelum pemindahan nyata.
+- Script hanya memeriksa file di level pertama folder sumber.
+- File yang ekstensinya tidak tercantum dalam kategori tidak dipindahkan.
+- Hindari menjalankan script pada folder sistem atau folder aplikasi yang sensitif.
